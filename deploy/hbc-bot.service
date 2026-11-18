@@ -1,0 +1,21 @@
+# User unit (no sudo needed):
+#   mkdir -p ~/.config/systemd/user && cp deploy/hbc-bot.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload && systemctl --user enable --now hbc-bot
+#   loginctl enable-linger "$USER"     # keep it running after logout (may need an admin)
+#   journalctl --user -u hbc-bot -f
+#
+# Auto-deploy after merges to main: see deploy/README.md + deploy/crontab.example
+# (cron runs deploy/auto-update.sh → systemctl --user restart, or pidfile fallback).
+[Unit]
+Description=HBC Discord bot (bahaa tools)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=%h/hbc-bot
+ExecStart=%h/hbc-bot/.venv/bin/python -m hbc_bot
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

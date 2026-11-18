@@ -1,0 +1,10 @@
+# bahaa pipeline - tool-level properties that Discord itself cannot express.
+# Who may run it and in which channels is NOT configured here: that is Discord's
+# command permissions (Server Settings -> Integrations -> hbc-bot -> /bahaa).
+
+[run]
+host = "vosslink"   # where the tool executes; the bot refuses if its HBC_HOST differs
+
+[discord]
+guild = true        # startable from the lab server
+dm = true           # startable from allowlisted DMs (HBC_DM_USER_IDS)

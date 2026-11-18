@@ -1,0 +1,167 @@
+# bahaa pipeline debrief - arg contract.
+# One validator (tools/_lib/toolargs.py) enforces this for the CLI and for hbc-bot.
+# Discord form shows: mode, study, ids, limit. `discord = false` args are CLI-only.
+
+[[arg]]
+name = "mode"
+kind = "select"
+label = "Mode"
+help = "Dry run lists subjects. Apply builds PDFs and lands them in BOOST-I/auto."
+default = "dry"
+
+  [[arg.choice]]
+  value = "dry"
+  label = "Dry run (list only)"
+  argv = []
+
+  [[arg.choice]]
+  value = "apply"
+  label = "Apply + land PDFs"
+  argv = ["--apply", "--land"]
+
+[[arg]]
+name = "study"
+kind = "select"
+label = "Study"
+help = "Which GGIR tree(s) to scan."
+flag = "--study"
+default = "int"
+
+  [[arg.choice]]
+  value = "int"
+  label = "INT (BOOST-I)"
+
+  [[arg.choice]]
+  value = "obs"
+  label = "OBS"
+
+  [[arg.choice]]
+  value = "both"
+  label = "INT + OBS"
+
+[[arg]]
+name = "ids"
+kind = "string_list"
+label = "Subject IDs"
+help = "Optional. Comma or newline separated, e.g. 8080, 9031. Empty = full scan."
+flag = "--ids"
+pattern = '(sub-)?\d{4}'
+
+[[arg]]
+name = "limit"
+kind = "string"
+label = "Max subjects"
+help = "Optional. Stop after this many subjects."
+flag = "--limit"
+pattern = '\d{1,4}'
+
+# Red button before anything is written; only when mode = apply.
+[[arg]]
+name = "confirm"
+kind = "confirm"
+label = "Apply + land PDFs"
+help = "Writes activity-report PDFs into BOOST-I/auto."
+danger = true
+when = { mode = ["apply"] }
+
+# ---- CLI-only ----
+
+[[arg]]
+name = "fitness"
+kind = "select"
+help = "Per-subject fitness from REDCap/xlsx."
+default = "on"
+discord = false
+
+  [[arg.choice]]
+  value = "on"
+  argv = ["--auto-fitness"]
+
+  [[arg.choice]]
+  value = "off"
+  argv = ["--no-auto-fitness"]
+
+[[arg]]
+name = "force"
+kind = "select"
+default = "off"
+discord = false
+
+  [[arg.choice]]
+  value = "off"
+  argv = []
+
+  [[arg.choice]]
+  value = "on"
+  argv = ["--force"]
+
+[[arg]]
+name = "lab-map"
+kind = "file"
+help = "CSV boost_id,lab_id"
+flag = "--lab-map"
+extensions = [".csv"]
+discord = false
+
+[[arg]]
+name = "land-dir"
+kind = "string"
+help = "Override BOOST-I/auto path"
+flag = "--land-dir"
+discord = false
+
+[[arg]]
+name = "ggir-root"
+kind = "string"
+help = "Override single GGIR root"
+flag = "--ggir-root"
+discord = false
+
+[[arg]]
+name = "manual-json"
+kind = "file"
+help = "Shared manual fitness JSON (all subjects)"
+flag = "--manual-json"
+extensions = [".json"]
+discord = false
+
+[[arg]]
+name = "fitness-csv"
+kind = "file"
+flag = "--fitness-csv"
+extensions = [".csv"]
+discord = false
+
+[[arg]]
+name = "adherence-csv"
+kind = "file"
+flag = "--adherence-csv"
+extensions = [".csv"]
+discord = false
+
+[[arg]]
+name = "hr-xlsx"
+kind = "file"
+flag = "--hr-xlsx"
+extensions = [".xlsx"]
+discord = false
+
+[[arg]]
+name = "fitness-search-dir"
+kind = "string"
+flag = "--fitness-search-dir"
+discord = false
+
+[[arg]]
+name = "fitness-report-id"
+kind = "string"
+flag = "--fitness-report-id"
+pattern = '\d+'
+discord = false
+
+[[arg]]
+name = "adherence-report-id"
+kind = "string"
+flag = "--adherence-report-id"
+pattern = '\d+'
+discord = false

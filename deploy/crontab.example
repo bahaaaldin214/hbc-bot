@@ -1,0 +1,6 @@
+# Add to vosslab-svc crontab (no sudo). Example:
+#   crontab -e
+# or append via: (crontab -l 2>/dev/null; cat ~/hbc-bot/deploy/crontab.example | grep -v '^#') | crontab -
+#
+# Every 2 minutes: fetch main, ff-only pull if moved, pip install -e ., restart.
+*/2 * * * * /home/vosslab-svc/hbc-bot/deploy/auto-update.sh >> /home/vosslab-svc/logs/hbc-bot-update.log 2>&1
